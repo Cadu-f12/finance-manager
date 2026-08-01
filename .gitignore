@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Development properties
+stack/finance-api/src/main/resources/application-dev.properties
+
+# IDEs
+.idea/
+*.iml
