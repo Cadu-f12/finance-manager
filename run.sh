@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$SCRIPT_DIR/scripts/help.sh"
 
 # --- AUTO-COMPLETE LOGIC ---
 _run_completions() {
@@ -9,14 +11,14 @@ _run_completions() {
 
     # First level commands (./run.sh <command>)
     if [ "$COMP_CWORD" -eq 1 ]; then
-        local commands="up down setup restart clean build upsql finance-api"
+        local commands="up build upsql down clean setup restart finance-api help"
         COMPREPLY=( $(compgen -W "$commands" -- "$cur") )
 
     # Second level commands (./run.sh <service> <command>)
     elif [ "$COMP_CWORD" -eq 2 ]; then
         case "$prev" in
             "finance-api")
-                local service_commands="init stop"
+                local service_commands="init stop help"
                 COMPREPLY=( $(compgen -W "$service_commands" -- "$cur") )
                 ;;
             *)
@@ -59,7 +61,6 @@ case "$ARG1" in
         echo "System restarted!"
         ;;
     "finance-api")
-        # Sub-commands specifically for the finance-api service
         case "$ARG2" in
            "init")
                echo "Starting Finance API in development mode..."
@@ -67,7 +68,6 @@ case "$ARG1" in
                ;;
            "stop")
                echo "Stopping Finance API on port 8080..."
-               # Finds the Process ID (PID) listening on port 8080 and kills it gracefully
                PID=$(lsof -t -i:8080)
                if [ -z "$PID" ]; then
                    echo "Finance API is not currently running."
@@ -76,12 +76,20 @@ case "$ARG1" in
                    echo "Finance API stopped successfully."
                fi
                ;;
+           "help")
+               show_finance_api_help
+               ;;
            *)
-               echo "Unknown command for finance-api! Available commands: init, stop"
+               echo "Unknown command for finance-api! '$2'"
+               show_finance_api_help
                ;;
         esac
         ;;
+    "help")
+        show_general_help
+        ;;
     *)
-        echo "Unknown command! Available commands: up, build, upsql, down, clean, setup, restart, finance-api"
+        echo "Unknown command! '$1'"
+        show_general_help
         ;;
 esac
