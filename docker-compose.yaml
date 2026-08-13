@@ -2,7 +2,7 @@
   services:
     postgres:
       image: postgres:18
-      container_name: ${CONTAINER_NAME_DB}
+      container_name: ${POSTGRES_HOST}
       restart: unless-stopped
       environment:
         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
