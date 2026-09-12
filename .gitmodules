@@ -1,3 +1,4 @@
 [submodule "stack/finance-api"]
 	path = stack/finance-api
 	url = git@github.com:Cadu-f12/finance-api.git
+    branch = main
