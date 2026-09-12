@@ -27,12 +27,7 @@
       restart: unless-stopped
       ports:
         - "${FINANCE_API_PORT}:8080"
-      environment:
-        POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
-        POSTGRES_PORT: 5432
-        POSTGRES_DB: ${POSTGRES_DB}
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      env_file: "./stack/finance-api/.env"
       depends_on:
         postgres:
           condition: service_healthy

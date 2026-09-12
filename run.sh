@@ -3,6 +3,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 source "$SCRIPT_DIR/scripts/help.sh"
+source "$SCRIPT_DIR/scripts/setup-env.sh"
 
 # --- AUTO-COMPLETE LOGIC ---
 _run_completions() {
@@ -52,8 +53,7 @@ case "$ARG1" in
         docker compose down -v
         ;;
     "setup")
-        cp .env.example .env
-        echo "Environment file created successfully!"
+        setup_env
         ;;
     "restart")
         docker compose down
